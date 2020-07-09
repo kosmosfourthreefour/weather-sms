@@ -38,6 +38,7 @@ function textIt() {
 }
 
 (function () {
-  let res = getResponse();
+  // let res = getResponse();
+  let res = 212;
   if (Object.values(dangerWeatherCodes).includes(res)) textIt();
 })();
