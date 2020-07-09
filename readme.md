@@ -1,6 +1,6 @@
 ### Screenshot
 
-![example](./1.png)
+![example](img/1.png)
 
 ### About
 
