@@ -9,33 +9,35 @@ const ZIP = 65802;
 const API_KEY = process.env.SUPER_SECRET_API_KEY;
 const API = `https://api.openweathermap.org/data/2.5/weather?zip=${ZIP}&appid=${API_KEY}`;
 const dangerWeatherCodes = {
-  212: "heavy thunderstorm",
-  511: "freezing rain",
-  781: "tornado",
+  "heavy thunderstorm": 212,
+  "freezing rain": 511,
+  tornado: 781,
 };
 
-axios
-  .get(API)
-  .then(function (response) {
-    // handle success
-    console.log(response.data.weather[0].id);
-  })
-  .catch(function (error) {
-    // handle error
-    console.log(error);
-  });
+function getResponse() {
+  axios
+    .get(API)
+    .then(function (response) {
+      // handle success
+      return response.data.weather[0].id;
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+    });
+}
 
-client.messages
-  .create({
-    body: "This is the ship that made the Kessel Run in fourteen parsecs?",
-    from: TWILIO_NUMBER,
-    to: ME_NUMBER,
-  })
-  .then((message) => console.log(message.sid));
+function textIt() {
+  client.messages
+    .create({
+      body: "Danger weather!!☔⚡🌩️ Get your Kindle ready.",
+      from: TWILIO_NUMBER,
+      to: ME_NUMBER,
+    })
+    .then((message) => console.log(message.sid));
+}
 
-/**
- * TODO
- * if response.data.weather[0].id is in dangerWeatherCodes
- * start the twilio sms-alert
- * otherwise return, maybe with a guard clause
- */
+(function () {
+  let res = getResponse();
+  if (Object.values(dangerWeatherCodes).includes(res)) textIt();
+})();
